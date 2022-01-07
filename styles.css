@@ -27,6 +27,19 @@ body {
   cursor: pointer;
 }
 
+.winnAnnounce {
+  position: absolute;
+  width: 420px;
+  height: 150px;
+  line-height: 60px;
+  background-color: aqua;
+  color: #1c0b19;
+}
+
+.btnPlayAgain {
+  position: relative;
+}
+
 .mr {
   border-right: solid 10px green;
 }
@@ -36,5 +49,5 @@ body {
 } 
 
 .hide {
-  visibility: hidden;
+  display: none;
 }

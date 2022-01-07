@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="styles.css"> <!-- CSS -->
+  <link rel="shortcut icon" type="image/png" href="imgs/favicon.png"> <!-- Fav Icon -->
+  <script src="script.js" defer></script> <!-- JS -->
   <title>Tic Tac Toe</title>
 </head>
 <body>
   <h1 class="title">Tic Tac Toe</h1>
   <h4 id="playerTurn">X turn</h4>
   <div style="height: 320px; width: 320px; margin-bottom: 100px;">
-    <div class="table">
+    <div class="table" id="table">
       <div class="field mr mb" id="field"></div>
       <div class="field mr mb" id="field"></div>
       <div class="field mb" id="field"></div>
@@ -24,9 +25,13 @@
       <div class="field" id="field"></div>
     </div>
   </div>
+  <div class="winnAnnounce hide" id="winnAnnounce">
+    <p id="winMessage"></p>
+    <button onclick="playAgain()" class="btnPlayAgain">Play again</button>
+  </div>
   <div class="buttons">
     <button class="btn">Play with Friend</button>
-    <button class="btn">Reset</button>    
+    <button class="btn" onclick="reset()">Reset</button>    
   </div>
 </body>
 </html>

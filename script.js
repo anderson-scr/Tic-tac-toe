@@ -1,5 +1,9 @@
 const field = document.querySelectorAll("#field")
 const currentTurn = document.querySelector("#playerTurn")
+const winMessage = document.getElementById("winMessage")
+const show = document.getElementById("winnAnnounce")
+const hideBoard = document.getElementById("table")
+
 
 let player = "X"
 let victory = false
@@ -44,14 +48,40 @@ function verifyWinn() {
   }
   if(!currentBoard.includes('')) {announce('TIE')}
   if(victory) {
-    announce(player == "X"? 'playerXWon' : 'playerOWon')
+    announce(player == "X"? 'Player X Won' : 'Player O Won')
   }
 }
 
 
-function announce() {
+function announce(vitorioso) {
+  // esconder o tabuleiro.
+  hideBoard.classList.add("hide")
+  currentTurn.classList.add("hide")
   
+  // mostre o anuncio de vitoria.
+  show.classList.remove("hide")
+  winMessage.innerText =  vitorioso
 }
+
+function playAgain() {
+  // Hide the winn message and show again the board
+  hideBoard.classList.remove("hide")
+  currentTurn.classList.remove("hide")
+  show.classList.add("hide")
+
+  // Reset board
+  reset()
+}
+
+function reset() {
+  currentBoard = ['', '', '', '', '', '', '', '', '']
+  victory = false
+  if(player == "O") {updatePlayer()}
+  field.forEach((tile => {
+    tile.innerText = "";
+  }))
+}
+
 
 field.forEach((replace, index) => {
   replace.addEventListener('click', () => {
