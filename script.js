@@ -3,9 +3,11 @@ const currentTurn = document.querySelector("#playerTurn")
 const winMessage = document.getElementById("winMessage")
 const show = document.getElementById("winnAnnounce")
 const hideBoard = document.getElementById("table")
+const friend = document.getElementById("friend")
 
 
 let player = "X"
+let playFriend = false
 let victory = false
 let currentBoard = ['', '', '', '', '', '', '', '', '']
 const allWinnsConditions = [
@@ -22,9 +24,11 @@ const allWinnsConditions = [
 
 // Updates the player turn and the message above the board
 function updatePlayer() {
-  yourTurn = player
-  player == "X"? player = "O" : player = "X"
-  currentTurn.innerText === "X turn"? currentTurn.innerText = "O turn" : currentTurn.innerText = "X turn"
+  if(victory == false) {
+    yourTurn = player
+    player == "X"? player = "O" : player = "X"
+    currentTurn.innerText === "X turn"? currentTurn.innerText = "O turn" : currentTurn.innerText = "X turn"
+  }
 }
 
 // Saves the values of each player play
@@ -43,6 +47,7 @@ function verifyWinn() {
     if(x === '' || y === '' || z === '') { continue }
     if(x === y & y === z) {
       victory = true
+      console.log(`victory ${player}`)
       break
     }
   }
@@ -63,15 +68,31 @@ function announce(vitorioso) {
   winMessage.innerText =  vitorioso
 }
 
-function playAgain() {
-  // Hide the winn message and show again the board
-  hideBoard.classList.remove("hide")
-  currentTurn.classList.remove("hide")
-  show.classList.add("hide")
-
-  // Reset board
-  reset()
+function aiTurn() {
+  if(currentBoard.includes('') & victory == false & playFriend == false) {
+    do {
+      aiPlay = Math.floor(Math.random()*currentBoard.length)
+    } while(currentBoard[aiPlay] != "")
+    
+    field[aiPlay].innerText = player
+    updateBoard(aiPlay)
+    verifyWinn()
+    updatePlayer()
+    console.log(`aiTurn ${player}`)
+  } 
 }
+
+field.forEach((replace, index) => {
+  replace.addEventListener('click', () => {
+    replace.innerText = player
+    updateBoard(index)
+    verifyWinn()
+    updatePlayer()
+    aiTurn()
+  })
+})
+
+// ========================================================================== //
 
 function reset() {
   currentBoard = ['', '', '', '', '', '', '', '', '']
@@ -82,12 +103,18 @@ function reset() {
   }))
 }
 
+function friendOn() {
+  playFriend = !playFriend
+  playFriend? friend.innerText = "Play with AI" : friend.innerText = "Play with Friend"
+  reset()
+}
 
-field.forEach((replace, index) => {
-  replace.addEventListener('click', () => {
-    replace.innerText = player
-    updateBoard(index)
-    verifyWinn()
-    updatePlayer()
-  })
-})
+function playAgain() {
+  // Hide the winn message and show again the board
+  hideBoard.classList.remove("hide")
+  currentTurn.classList.remove("hide")
+  show.classList.add("hide")
+
+  // Reset board
+  reset()
+}
