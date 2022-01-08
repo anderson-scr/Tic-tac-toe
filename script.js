@@ -4,9 +4,13 @@ const winMessage = document.getElementById("winMessage")
 const show = document.getElementById("winnAnnounce")
 const hideBoard = document.getElementById("table")
 const friend = document.getElementById("friend")
+const x = document.getElementById("X")
+const o = document.getElementById("O")
 
 
 let player = "X"
+let xWin = 0
+let oWin = 0
 let playFriend = false
 let victory = false
 let currentBoard = ['', '', '', '', '', '', '', '', '']
@@ -47,7 +51,6 @@ function verifyWinn() {
     if(x === '' || y === '' || z === '') { continue }
     if(x === y & y === z) {
       victory = true
-      console.log(`victory ${player}`)
       break
     }
   }
@@ -66,6 +69,12 @@ function announce(vitorioso) {
   // mostre o anuncio de vitoria.
   show.classList.remove("hide")
   winMessage.innerText =  vitorioso
+
+  //Somar ao placar
+  player == "X"? xWin++  : oWin++
+  x.innerText = xWin
+  o.innerText = oWin
+
 }
 
 function aiTurn() {
@@ -75,34 +84,46 @@ function aiTurn() {
     } while(currentBoard[aiPlay] != "")
     
     field[aiPlay].innerText = player
+    field[aiPlay].classList.add("noPlay")
     updateBoard(aiPlay)
     verifyWinn()
     updatePlayer()
-    console.log(`aiTurn ${player}`)
   } 
 }
 
 field.forEach((replace, index) => {
   replace.addEventListener('click', () => {
     replace.innerText = player
+    replace.classList.add("noPlay")
     updateBoard(index)
     verifyWinn()
     updatePlayer()
-    aiTurn()
+    setTimeout(() => {aiTurn()}, 500)
   })
 })
 
 // ========================================================================== //
 
 function reset() {
+  //return default values
   currentBoard = ['', '', '', '', '', '', '', '', '']
+  if(victory == false) {
+    xWin = 0
+    oWin = 0
+    x.innerText = xWin
+    o.innerText = oWin
+  }
   victory = false
+
+  // Return to player X
   if(player == "O") {updatePlayer()}
   field.forEach((tile => {
     tile.innerText = "";
+    tile.classList.remove("noPlay")
   }))
 }
 
+//Start playing with friend button
 function friendOn() {
   playFriend = !playFriend
   playFriend? friend.innerText = "Play with AI" : friend.innerText = "Play with Friend"

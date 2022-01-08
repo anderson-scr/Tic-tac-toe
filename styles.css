@@ -27,6 +27,12 @@ body {
   cursor: pointer;
 }
 
+.noPlay {
+  pointer-events: none;
+  cursor: auto;
+}
+
+
 .winnAnnounce {
   position: absolute;
   width: 420px;
